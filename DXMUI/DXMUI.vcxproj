@@ -75,6 +75,7 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
+      <AdditionalIncludeDirectories>$(SolutionDir)DXMUI\Parser\;$(SolutionDir)DXMUI;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -90,6 +91,7 @@
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
+      <AdditionalIncludeDirectories>$(SolutionDir)DXMUI\Parser\;$(SolutionDir)DXMUI;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -101,13 +103,19 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Retail|x64'">
     <ClCompile>
       <LanguageStandard>stdcpp17</LanguageStandard>
+      <AdditionalIncludeDirectories>$(SolutionDir)DXMUI\Parser\;$(SolutionDir)DXMUI;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="Parser\IParser.h" />
+    <ClInclude Include="Canvas\Canvas.h" />
+    <ClInclude Include="Canvas\ICanvasElement.h" />
+    <ClInclude Include="Parser\Markup\MarkupBuilder.h" />
+    <ClInclude Include="Parser\Markup\DXMParser.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Parser\IParser.cpp" />
+    <ClCompile Include="Canvas\Canvas.cpp" />
+    <ClCompile Include="Parser\Markup\MarkupBuilder.cpp" />
+    <ClCompile Include="Parser\Markup\DXMParser.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
