@@ -31,13 +31,11 @@ void DXMUI::DXMBuilder::Clear(DXMBuildNode* toClear)
 		delete toClear->myChild;
 		toClear->myChild = nullptr;
 	}
-
 	for (auto& it : toClear->myElements)
 	{
 		delete it;
 		it = nullptr;
 	}
-
 	toClear->myElements.shrink_to_fit();
 }
 

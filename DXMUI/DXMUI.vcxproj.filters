@@ -27,6 +27,9 @@
     <ClInclude Include="Canvas\ICanvasElement.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Canvas\Elements\TextElement.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Parser\Markup\DXMParser.cpp">
@@ -36,6 +39,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Canvas\Canvas.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Canvas\Elements\TextElement.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
