@@ -33,12 +33,10 @@ namespace DXMUI
 		} myBuffer = eCurrentBuffer::InputField;
 
 	private:
-		std::map<eCurrentBuffer, std::function<void()>> myFunctionMap;
 		char myTagBuffer[64];
 		char myInputFieldBuffer[256];
-		unsigned short myCounter = 0;
-		char myReadCharacter = '\0';
-
+		unsigned short myTagCounter = 0;
+		unsigned short myInputFieldCounter = 0;
 		std::string myCurrentIdentifier = "";
 	};
 }

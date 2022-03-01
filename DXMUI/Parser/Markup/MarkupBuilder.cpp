@@ -1,21 +1,38 @@
 #include "MarkupBuilder.h"
 
+DXMUI::DXMBuilder::DXMBuilder()
+{
+	myLeaf = &myRoot;
+}
+
 DXMUI::Canvas DXMUI::DXMBuilder::Build()
 {
-	return Canvas(); // @TODO Generate Canvas from root
+	Canvas canvas;
+
+	DXMBuildNode* inspectingNode = myRoot.myChild;
+
+	while (inspectingNode != nullptr)
+	{
+		canvas.myDwellers.push_back({ inspectingNode->myID, inspectingNode->myElements[0] });
+		
+		inspectingNode = inspectingNode->myChild;
+	}
+	return canvas; 
 }
 
 void DXMUI::DXMBuilder::DivAppend(ICanvasElement* aElementToAppend)
 {
-	DXMBuildNode* leaf = FindLeaf();
+	DXMBuildNode* leaf = myLeaf;
 	leaf->myElements.emplace_back(aElementToAppend);
 }
 
-void DXMUI::DXMBuilder::Append(ICanvasElement* aElementToAppend)
+void DXMUI::DXMBuilder::Append(const std::string& aID, ICanvasElement* aElementToAppend)
 {
-	DXMBuildNode* leaf = FindLeaf();
+	DXMBuildNode* leaf = myLeaf;
 	leaf->myChild = new DXMBuildNode();
+	leaf->myChild->myID = aID;
 	leaf->myChild->myElements.emplace_back(aElementToAppend);
+	myLeaf = leaf->myChild;
 }
 
 void DXMUI::DXMBuilder::Clear()
@@ -37,14 +54,4 @@ void DXMUI::DXMBuilder::Clear(DXMBuildNode* toClear)
 		it = nullptr;
 	}
 	toClear->myElements.shrink_to_fit();
-}
-
-DXMUI::DXMBuilder::DXMBuildNode* DXMUI::DXMBuilder::FindLeaf()
-{
-	DXMBuildNode* leaf = &myRoot;
-	while (leaf->myChild != nullptr)
-	{
-		leaf = leaf->myChild;
-	}
-	return leaf;
 }
