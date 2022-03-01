@@ -30,6 +30,15 @@
     <ClInclude Include="Canvas\Elements\TextElement.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Canvas\Elements\ImageElement.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Canvas\IInteractableElement.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Canvas\Elements\ButtonElement.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Parser\Markup\DXMParser.cpp">
@@ -42,6 +51,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Canvas\Elements\TextElement.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Canvas\Elements\ImageElement.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Canvas\Elements\ButtonElement.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
