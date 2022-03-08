@@ -12,5 +12,5 @@ void DXMUI::ButtonElement::Interact()
 #include <iostream>
 void DXMUI::ButtonElement::Render()
 {
-	std::cout << myText << std::endl;
+	std::cout << myText;
 }

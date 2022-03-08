@@ -39,6 +39,9 @@
     <ClInclude Include="Canvas\Elements\ButtonElement.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Canvas\Elements\DivElement.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Parser\Markup\DXMParser.cpp">
@@ -57,6 +60,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Canvas\Elements\ButtonElement.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Canvas\Elements\DivElement.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

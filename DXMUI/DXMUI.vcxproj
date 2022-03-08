@@ -112,6 +112,7 @@
     <ClInclude Include="Canvas\ICanvasElement.h" />
     <ClInclude Include="Canvas\Elements\ImageElement.h" />
     <ClInclude Include="Canvas\IInteractableElement.h" />
+    <ClInclude Include="Canvas\Elements\DivElement.h" />
     <ClInclude Include="Parser\Markup\MarkupBuilder.h" />
     <ClInclude Include="Parser\Markup\DXMParser.h" />
     <ClInclude Include="Canvas\Elements\TextElement.h" />
@@ -120,6 +121,7 @@
     <ClCompile Include="Canvas\Elements\ButtonElement.cpp" />
     <ClCompile Include="Canvas\Canvas.cpp" />
     <ClCompile Include="Canvas\Elements\ImageElement.cpp" />
+    <ClCompile Include="Canvas\Elements\DivElement.cpp" />
     <ClCompile Include="Parser\Markup\MarkupBuilder.cpp" />
     <ClCompile Include="Parser\Markup\DXMParser.cpp" />
     <ClCompile Include="Canvas\Elements\TextElement.cpp" />

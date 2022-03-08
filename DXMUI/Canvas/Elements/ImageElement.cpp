@@ -8,5 +8,5 @@ DXMUI::ImageElement::ImageElement(const char* aPath)
 #include <iostream> // temp
 void DXMUI::ImageElement::Render()
 {
-	std::cout << "I am the image -> " << myPath << std::endl;
+	std::cout << "I am the image -> " << myPath;
 }

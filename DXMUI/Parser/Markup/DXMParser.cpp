@@ -2,6 +2,7 @@
 #include "Canvas\Elements\TextElement.h"
 #include "Canvas\Elements\ImageElement.h"
 #include "Canvas\Elements\ButtonElement.h"
+#include "Canvas\Elements\DivElement.h"
 #include <assert.h>
 #include <filesystem>
 #include <fstream>
@@ -9,8 +10,7 @@
 
 DXMUI::DXMParser::DXMParser()
 {
-	memset(myTagBuffer, '\0', 64);
-	memset(myInputFieldBuffer, '\0', 256);
+	myDepth = 0;
 }
 
 DXMUI::DXMBuilder DXMUI::DXMParser::Parse(const std::wstring& aPath)
@@ -30,7 +30,7 @@ DXMUI::DXMBuilder DXMUI::DXMParser::Parse(const std::wstring& aPath)
 		switch (c)
 		{
 			case '<':
-				// Todo begin read tag.
+				myTagBuffer = std::string();
 				myBuffer = eCurrentBuffer::Tag;
 				break;
 			case '>':
@@ -39,15 +39,16 @@ DXMUI::DXMBuilder DXMUI::DXMParser::Parse(const std::wstring& aPath)
 				break;
 			case '\n':
 			case '\t':
+			case '\0':
 				break;
 			default:
 				if (myBuffer == eCurrentBuffer::InputField)
 				{
-					myInputFieldBuffer[myInputFieldCounter++] = c;
+					myContentStack.top() += c;
 				}
 				else
 				{
-					myTagBuffer[myTagCounter++] = c;
+					myTagBuffer += c;
 				}
 				break;
 		}	
@@ -65,64 +66,84 @@ void DXMUI::DXMParser::ParseTag(DXMBuilder& aBuilder)
 	if (myTagBuffer[0] == '/')
 	{
 		AttachDataToBuilder(aBuilder);
+		myDepth--;
+		assert(myDepth >= 0 && "Parser error: To many endtags!");
 	}
 	else
 	{
 		switch (myTagBuffer[0])
 		{
 			case 't':
-				myCurrentTag = eTagType::Text;
+				myTypeStack.push(eTagType::Text);
 				break;
 			case 'd':
-				if(!memcmp(myTagBuffer, "div", 3)) myCurrentTag = eTagType::Div;
+				if(myTagBuffer.compare(0,3,"div") == 0) myTypeStack.push(eTagType::Div);
 				else assert(true && "Incorrect tag");
 				break;
 			case 'i':
-				if (!memcmp(myTagBuffer, "img", 3)) myCurrentTag = eTagType::Image;
+				if ((myTagBuffer.compare(0,3, "img") == 0)) myTypeStack.push(eTagType::Image);
 				else assert(true && "Incorrect tag");
 				break;
 			case 'b':
-				if(!memcmp(myTagBuffer, "button", 6)) myCurrentTag = eTagType::Button;
+				if (myTagBuffer.compare(0, 6, "button") == 0) myTypeStack.push(eTagType::Button);
+				else if (myTagBuffer.compare(0, 2, "br") == 0);
 				else assert(true && "Incorrect tag");
 				break;
 			default:
 				assert(true && "Incorrect tag");
 				break;
 		}
-		char* id = strchr(myTagBuffer, ',') ;
-		if (id != nullptr)
+		if (myTagBuffer.compare(0, 2, "br") == 0)
 		{
-			myCurrentIdentifier = std::string(id + 1);
+			myDepth--;
+			myContentStack.top() += "\n";
 		}
 		else
 		{
-			myCurrentIdentifier = std::string();
+			myContentStack.push(std::string());
 		}
+		int idOffset = myTagBuffer.find_first_of(',');
+		if (idOffset != std::string::npos)
+		{
+			myIDStack.push(std::string(myTagBuffer.begin() + idOffset , myTagBuffer.end()));
+		}
+		else
+		{
+			myIDStack.push(std::string());
+		}
+		myDepth++;
 	}
-
-	memset(myTagBuffer, '\0', 64);
-	myTagCounter = 0;
+	myTagBuffer = std::string();
 }
 
 void DXMUI::DXMParser::AttachDataToBuilder(DXMBuilder& aBuilder)
 {
-	switch (myCurrentTag)
+	std::string inputBuffer = myContentStack.top();
+	myContentStack.pop();
+
+	switch (myTypeStack.top())
 	{
 		case eTagType::Text:
-			aBuilder.Append(myCurrentIdentifier,new TextElement(myInputFieldBuffer));
+			AppendData(aBuilder, new TextElement(inputBuffer.c_str()));
 			break;
 		case eTagType::Div:
-			//aBuilder.Append(new DivElement(myInputFieldBuffer));
+			AppendData(aBuilder, new DivElement());
 			break;
 		case eTagType::Button:
-			aBuilder.Append(myCurrentIdentifier, new ButtonElement(myInputFieldBuffer));
+			AppendData(aBuilder, new ButtonElement(inputBuffer.c_str()));
 			break;
 		case eTagType::Image:
-			aBuilder.Append(myCurrentIdentifier, new ImageElement(myInputFieldBuffer));
+			AppendData(aBuilder, new ImageElement(inputBuffer.c_str()));
 			break;
 		default:
 			break;
 	}
-	memset(myInputFieldBuffer, '\0', 256);
-	myInputFieldCounter = 0;
+	myTypeStack.pop();
+	if (myTypeStack.empty()) aBuilder.AddNode();
+}
+
+void DXMUI::DXMParser::AppendData(DXMBuilder& aBuilder, ICanvasElement* aElement)
+{
+	aBuilder.DivAppend(myDepth, myIDStack.top(), aElement);
+	myIDStack.pop();
 }

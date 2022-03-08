@@ -1,11 +1,12 @@
 #include "Canvas.h"
 void DXMUI::Canvas::Render()
 {
-	for (CanvasDweller& dweller : myDwellers)
+	for (ElementContainer& container : myContainers)
 	{
-		printf("ID: ");
-		printf(dweller.myIdentifier.c_str()); 
+		for (ICanvasElement* element : container.myElements)
+		{
+			element->Render();
+		}
 		printf("\n");
-		dweller.myElement->Render();
 	}
 }

@@ -4,6 +4,7 @@
 #include "Canvas\Canvas.h"
 #include <map>
 #include <functional>
+#include <stack>
 
 namespace DXMUI
 {
@@ -17,6 +18,7 @@ namespace DXMUI
 	private:
 		void ParseTag(DXMBuilder& aBuilder);
 		void AttachDataToBuilder(DXMBuilder& aBuilder);
+		void AppendData(DXMBuilder& aBuilder, ICanvasElement* aElement);
 	private:
 		enum class eTagType
 		{
@@ -24,7 +26,7 @@ namespace DXMUI
 			Div,
 			Image,
 			Button
-		} myCurrentTag;
+		};
 
 		enum class eCurrentBuffer
 		{
@@ -33,11 +35,11 @@ namespace DXMUI
 		} myBuffer = eCurrentBuffer::InputField;
 
 	private:
-		char myTagBuffer[64];
-		char myInputFieldBuffer[256];
-		unsigned short myTagCounter = 0;
-		unsigned short myInputFieldCounter = 0;
-		std::string myCurrentIdentifier = "";
+		std::string myTagBuffer;
+		std::stack<std::string> myContentStack;
+		std::stack<std::string> myIDStack;
+		std::stack<eTagType> myTypeStack;
+		unsigned int myDepth;
 	};
 }
 

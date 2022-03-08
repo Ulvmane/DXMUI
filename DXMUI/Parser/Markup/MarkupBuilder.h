@@ -10,21 +10,28 @@ namespace DXMUI
 	public:
 		DXMBuilder();
 		Canvas Build();
-		void   DivAppend(ICanvasElement* aElementToAppend);
-		void   Append(const std::string& aID, ICanvasElement* aElementToAppend);
-		void   Clear();
+		void   DivAppend(const int aDepth, std::string& aID, ICanvasElement* aElementToAppend);
 
+		void   AddNode();
+		void   Clear();
 	private:
-		struct DXMBuildNode
+		struct NodeContent
 		{
 			std::string myID;
+			ICanvasElement* myElement;
+			std::vector<NodeContent> myChildren;
+		};
+
+		struct DXMBuildNode
+		{
 			DXMBuildNode* myChild = nullptr;
-			std::vector<ICanvasElement*> myElements;
+			NodeContent myContent;
 		} myRoot;
 
 	private:
+		void GenerateContent(NodeContent* aContent, std::vector<DXMUI::ICanvasElement*>& aElems, std::vector<std::string>& aIDs);
 		void Clear(DXMBuildNode* toClear);
-		DXMBuildNode* myLeaf;
+		DXMBuildNode* myTail;
 	};
 }
 

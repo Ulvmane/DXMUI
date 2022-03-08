@@ -12,12 +12,12 @@ namespace DXMUI
 	private:
 		friend class DXMBuilder;
 
-		struct CanvasDweller
+		struct ElementContainer
 		{
-			std::string myIdentifier;
-			ICanvasElement* myElement;
+			std::vector <std::string> myIdentifier;
+			std::vector<ICanvasElement*> myElements;
 		};
-		std::vector<CanvasDweller> myDwellers;
+		std::vector<ElementContainer> myContainers;
 
 	};
 }
