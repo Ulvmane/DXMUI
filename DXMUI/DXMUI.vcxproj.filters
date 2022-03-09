@@ -42,6 +42,9 @@
     <ClInclude Include="Canvas\Elements\DivElement.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="D3D11_Interface\DXM_D3D11_Interface.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Parser\Markup\DXMParser.cpp">
@@ -63,6 +66,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Canvas\Elements\DivElement.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D3D11_Interface\DXM_D3D11_Interface.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
