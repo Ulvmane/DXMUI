@@ -1,16 +1,11 @@
-#include "DirectXFramework.h"
-#include "WindowHandler.h"
+#include "DXM_D3D11_Interface.h"
+
+#pragma comment(lib, "d3d11.lib")
 #include <d3d11.h>
 
-CDirectX11Framework::CDirectX11Framework()
-{
-	mySwapChain		= nullptr;
-	myDevice		= nullptr;
-	myDeviceContext = nullptr;
-	myBackBuffer	= nullptr;
-}
+using namespace DXMUI;
 
-CDirectX11Framework::~CDirectX11Framework()
+DXM_D3D11_Interface::DXM_D3D11_Interface()
 {
 	mySwapChain = nullptr;
 	myDevice = nullptr;
@@ -18,7 +13,15 @@ CDirectX11Framework::~CDirectX11Framework()
 	myBackBuffer = nullptr;
 }
 
-bool CDirectX11Framework::Init(HWND aHWND)
+DXM_D3D11_Interface::~DXM_D3D11_Interface()
+{
+	mySwapChain = nullptr;
+	myDevice = nullptr;
+	myDeviceContext = nullptr;
+	myBackBuffer = nullptr;
+}
+
+bool DXM_D3D11_Interface::Init(HWND aHWND)
 {
 	HRESULT result;
 	DXGI_SWAP_CHAIN_DESC swapChainDesc = {};
@@ -30,30 +33,26 @@ bool CDirectX11Framework::Init(HWND aHWND)
 	swapChainDesc.Windowed = true;
 
 	result = D3D11CreateDeviceAndSwapChain(nullptr, D3D_DRIVER_TYPE_HARDWARE,
-										   nullptr,0,nullptr,0, D3D11_SDK_VERSION,
+										   nullptr, 0, nullptr, 0, D3D11_SDK_VERSION,
 										   &swapChainDesc, &mySwapChain, &myDevice, nullptr, &myDeviceContext);
 
-	if (FAILED(result)) {/*Print fail info*/ return false; }
+	if (FAILED(result)) {return false; }
 
 	ID3D11Texture2D* backBufferTexture;
 	result = mySwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (void**)&backBufferTexture);
-	if (FAILED(result)) {/*Print fail info*/ return false; }
+	if (FAILED(result)) {return false; }
 
 	result = myDevice->CreateRenderTargetView(backBufferTexture, nullptr, &myBackBuffer);
-	if (FAILED(result)) {/*Print fail info*/ return false; }
+	if (FAILED(result)) {return false; }
 
 	result = backBufferTexture->Release();
-	if (FAILED(result)) {/*Print fail info*/ return false; }
+	if (FAILED(result)) {return false; }
 
 	return true;
 }
 
-void CDirectX11Framework::BeginFrame(std::array<float, 4> aClearColor)
+void DXMUI::DXM_D3D11_Interface::RenderCanvas(Canvas& aCanvas)
 {
-	myDeviceContext->ClearRenderTargetView(myBackBuffer, &aClearColor[0]);
-}
-
-void CDirectX11Framework::EndFrame()
-{
-	mySwapChain->Present(1,0);
+	aCanvas.Render();
+	//TODO -> Cool rendering
 }

@@ -13,8 +13,7 @@ class CDirectX11Framework
 public:
 	CDirectX11Framework();
 	~CDirectX11Framework();
-	bool Init(CWindowHandler* aWindowHandler);
-	void BeginFrame(std::array<float,4> aClearColor);
+	void Render();
 	void EndFrame();
 private:
 	IDXGISwapChain*			mySwapChain;
