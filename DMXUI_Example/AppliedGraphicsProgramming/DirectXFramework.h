@@ -1,10 +1,10 @@
 #pragma once
 #include <array>
 
-class IDXGISwapChain;
-class ID3D11Device;
-class ID3D11DeviceContext;
-class ID3D11RenderTargetView;
+struct IDXGISwapChain;
+struct ID3D11Device;
+struct ID3D11DeviceContext;
+struct ID3D11RenderTargetView;
 
 class CWindowHandler;
 
@@ -13,12 +13,13 @@ class CDirectX11Framework
 public:
 	CDirectX11Framework();
 	~CDirectX11Framework();
-	void Render();
 	void EndFrame();
+	bool Init(CWindowHandler* aHWND);
+	void BeginFrame(std::array<float, 4> aClearColor);
+	ID3D11Device* myDevice;
+	ID3D11DeviceContext* myDeviceContext;
 private:
 	IDXGISwapChain*			mySwapChain;
-	ID3D11Device*			myDevice;
-	ID3D11DeviceContext*	myDeviceContext;
 	ID3D11RenderTargetView* myBackBuffer;
 };
 

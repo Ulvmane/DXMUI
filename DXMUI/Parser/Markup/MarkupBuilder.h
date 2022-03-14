@@ -29,7 +29,7 @@ namespace DXMUI
 		} myRoot;
 
 	private:
-		void GenerateContent(NodeContent* aContent, std::vector<DXMUI::ICanvasElement*>& aElems, std::vector<std::string>& aIDs);
+		void GenerateContent(NodeContent* aContent, std::vector<std::shared_ptr<DXMUI::ICanvasElement>>& aElems, std::vector<std::string>& aIDs);
 		void Clear(DXMBuildNode* toClear);
 		DXMBuildNode* myTail;
 	};

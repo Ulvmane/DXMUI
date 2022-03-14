@@ -45,6 +45,27 @@
     <ClInclude Include="D3D11_Interface\DXM_D3D11_Interface.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="D3D11_Interface\DXMRenderer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D3D11_Interface\DXMDrawSurface.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D3D11_Interface\DXMUIRenderSettings.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Utility\DXMUI_Util.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Utility\DXTK\DDS.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Utility\DXTK\DDSTextureLoader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Utility\DXTK\WICTextureLoader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Parser\Markup\DXMParser.cpp">
@@ -71,5 +92,25 @@
     <ClCompile Include="D3D11_Interface\DXM_D3D11_Interface.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="D3D11_Interface\DXMRenderer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D3D11_Interface\DXMDrawSurface.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D3D11_Interface\DXMUIRenderSettings.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Utility\DXTK\DDSTextureLoader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Utility\DXTK\WICTextureLoader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="D3D11_Interface\Shaders\PS_DXMUI_SurfaceElement.hlsl" />
+    <FxCompile Include="D3D11_Interface\Shaders\GS_DXMUI_SurfaceElement.hlsl" />
+    <FxCompile Include="D3D11_Interface\Shaders\VS_DXMUI_SurfaceElement.hlsl" />
   </ItemGroup>
 </Project>

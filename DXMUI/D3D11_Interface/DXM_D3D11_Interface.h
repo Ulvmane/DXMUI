@@ -2,11 +2,13 @@
 #include <array>
 #include "Canvas\Canvas.h"
 #include <Windows.h>
+#include "DXMRenderer.h"
 
-class IDXGISwapChain;
-class ID3D11Device;
-class ID3D11DeviceContext;
-class ID3D11RenderTargetView;
+#include <d3d11.h>
+//struct IDXGISwapChain;
+//struct ID3D11Device;
+//struct ID3D11DeviceContext;
+//struct ID3D11RenderTargetView;
 
 namespace DXMUI
 {
@@ -17,14 +19,15 @@ namespace DXMUI
 	public:
 		DXM_D3D11_Interface();
 		~DXM_D3D11_Interface();
-		bool Init(HWND aHWND);
+		bool Init(HWND aWindow, ID3D11Device* aDevice, ID3D11DeviceContext* aContext);
 		void RenderCanvas(Canvas& aCanvas);
+		static ID3D11Device* GetDevice();
+		static __forceinline HWND GetHWND() { return ourHWND; }
 	private:
-		IDXGISwapChain* mySwapChain;
-		ID3D11Device* myDevice;
+		static ID3D11Device* myDevice;
+		static HWND ourHWND;
 		ID3D11DeviceContext* myDeviceContext;
-		ID3D11RenderTargetView* myBackBuffer;
-
+		DXMRenderer myRenderer;
 	};
 }
 

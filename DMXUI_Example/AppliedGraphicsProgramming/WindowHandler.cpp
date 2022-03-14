@@ -30,7 +30,7 @@ bool CWindowHandler::Init(const SWindowData& aWindowData)
 								  WS_OVERLAPPEDWINDOW | WS_POPUP | WS_VISIBLE,
 								  aWindowData.myX, aWindowData.myY, aWindowData.myWidth, aWindowData.myHeight,
 								  nullptr, nullptr, nullptr, this);
-
+	myWindowData = aWindowData;
 	return true;
 }
 

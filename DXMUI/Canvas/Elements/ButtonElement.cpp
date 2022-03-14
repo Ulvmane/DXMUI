@@ -1,4 +1,5 @@
 #include "ButtonElement.h"
+#include "D3D11_Interface\DXMRenderer.h"
 
 DXMUI::ButtonElement::ButtonElement(const char* aText)
 {
@@ -12,5 +13,9 @@ void DXMUI::ButtonElement::Interact()
 #include <iostream>
 void DXMUI::ButtonElement::Render()
 {
-	std::cout << myText;
+
+}
+
+void DXMUI::ButtonElement::SetPosition(const float aX, const float aY)
+{
 }

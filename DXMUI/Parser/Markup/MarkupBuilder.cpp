@@ -13,12 +13,14 @@ DXMUI::Canvas DXMUI::DXMBuilder::Build()
 
 	while (inspectingNode != nullptr)
 	{
-		std::vector<ICanvasElement*> elems;
+		std::vector<std::shared_ptr<ICanvasElement>> elems;
 		std::vector<std::string> ids;
 
 		if (inspectingNode->myContent.myElement != nullptr)
 		{
-			elems.emplace_back(inspectingNode->myContent.myElement);
+			auto emptyPtr = std::shared_ptr<ICanvasElement>();
+			emptyPtr.reset(inspectingNode->myContent.myElement);
+			elems.emplace_back(emptyPtr);
 			ids.emplace_back(inspectingNode->myContent.myID);
 		}
 		for (auto& content : inspectingNode->myContent.myChildren)
@@ -66,7 +68,7 @@ void DXMUI::DXMBuilder::Clear()
 
 
 
-void DXMUI::DXMBuilder::GenerateContent(DXMUI::DXMBuilder::NodeContent* aContent, std::vector<DXMUI::ICanvasElement*>& aElems, std::vector<std::string>& aIDs)
+void DXMUI::DXMBuilder::GenerateContent(DXMUI::DXMBuilder::NodeContent* aContent, std::vector<std::shared_ptr<DXMUI::ICanvasElement>>& aElems, std::vector<std::string>& aIDs)
 {
 	aElems.emplace_back(aContent->myElement);
 	aIDs.emplace_back(aContent->myID);

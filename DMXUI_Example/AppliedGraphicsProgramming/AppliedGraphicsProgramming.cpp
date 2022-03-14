@@ -5,19 +5,13 @@
 #include "Canvas\Canvas.h"
 #include "Parser\Markup\DXMParser.h"
 #include "Parser\Markup\MarkupBuilder.h"
+#include "D3D11_Interface\DXM_D3D11_Interface.h"
+#include <dxgidebug.h>
 
-//int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
-//                     _In_opt_ HINSTANCE hPrevInstance,
-//                     _In_ LPWSTR    lpCmdLine,
-//                     _In_ int       nCmdShow)
-//{
-//    hInstance; hPrevInstance; lpCmdLine; nCmdShow;
-//
-//}
 
+#define DEBUG_MEMORY
 int main()
 {
-
     CWindowHandler::SWindowData windowData;
     windowData.myX = 100;
     windowData.myY = 100;
@@ -33,9 +27,16 @@ int main()
     DXMUI::DXMBuilder myBuilder;
     DXMUI::DXMParser myMarkupParser;
 
-    myBuilder = myMarkupParser.Parse(L"Markup.DXMarkup");
+    DXMUI::DXM_D3D11_Interface myInterface;
+
+    CDirectX11Framework& framework = graphicsEngine.GetFramework();
+    if (!myInterface.Init(graphicsEngine.GetHWND(), framework.myDevice, framework.myDeviceContext))
+        return -1;
+   
+
+    myBuilder = myMarkupParser.Parse(L"Test_Markup.DXMarkup");
     myCanvas = myBuilder.Build();
-    myCanvas.Render();
+    myCanvas.Init();
 
     while (shouldRun)
     {
@@ -52,8 +53,23 @@ int main()
 
 
         graphicsEngine.BeginFrame();
-
+        myInterface.RenderCanvas(myCanvas);
         graphicsEngine.EndFrame();
     }
+    
+
+
+
+#ifdef DEBUG_MEMORY
+
+    typedef HRESULT(__stdcall* fPtr)(const IID&, void**);
+    HMODULE hDll = GetModuleHandleW(L"dxgidebug.dll");
+    fPtr DXGIGetDebugInterface = (fPtr)GetProcAddress(hDll, "DXGIGetDebugInterface");
+    IDXGIDebug* pDxgiDebug;
+    DXGIGetDebugInterface(__uuidof(IDXGIDebug), (void**)&pDxgiDebug);
+    pDxgiDebug->ReportLiveObjects(DXGI_DEBUG_ALL, DXGI_DEBUG_RLO_ALL);
+
+#endif // DEBUG_MEMORY
+
     return 0;
 }
