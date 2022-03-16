@@ -61,8 +61,6 @@ int main()
     }
     
 
-
-
 //#ifdef DEBUG_MEMORY
 //
 //    typedef HRESULT(__stdcall* fPtr)(const IID&, void**);

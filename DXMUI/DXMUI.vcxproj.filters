@@ -63,6 +63,12 @@
     <ClInclude Include="D3D11_Interface\DXMRenderText.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Parser\Styles\DXSParser.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Parser\Styles\DXUIStyle.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Parser\Markup\DXMParser.cpp">
@@ -102,6 +108,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="D3D11_Interface\DXMRenderText.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Parser\Styles\DXSParser.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Parser\Styles\DXUIStyle.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
