@@ -38,6 +38,9 @@ int main()
     myCanvas = myBuilder.Build();
     myCanvas.Init();
 
+    //myCanvas.SetCallback("callbackID_1", [&]() { printf("callbackID_1 was pressed \n"); });
+    //myCanvas.SetCallback("callbackID_2", [&]() { printf("callbackID_2 was pressed \n"); });
+
     while (shouldRun)
     {
         while (PeekMessage(&windowMessage, 0, 0, 0, PM_REMOVE))
@@ -51,7 +54,7 @@ int main()
             }
         }
 
-
+        myCanvas.Update();
         graphicsEngine.BeginFrame();
         myInterface.RenderCanvas(myCanvas);
         graphicsEngine.EndFrame();
@@ -60,16 +63,16 @@ int main()
 
 
 
-#ifdef DEBUG_MEMORY
-
-    typedef HRESULT(__stdcall* fPtr)(const IID&, void**);
-    HMODULE hDll = GetModuleHandleW(L"dxgidebug.dll");
-    fPtr DXGIGetDebugInterface = (fPtr)GetProcAddress(hDll, "DXGIGetDebugInterface");
-    IDXGIDebug* pDxgiDebug;
-    DXGIGetDebugInterface(__uuidof(IDXGIDebug), (void**)&pDxgiDebug);
-    pDxgiDebug->ReportLiveObjects(DXGI_DEBUG_ALL, DXGI_DEBUG_RLO_ALL);
-
-#endif // DEBUG_MEMORY
+//#ifdef DEBUG_MEMORY
+//
+//    typedef HRESULT(__stdcall* fPtr)(const IID&, void**);
+//    HMODULE hDll = GetModuleHandleW(L"dxgidebug.dll");
+//    fPtr DXGIGetDebugInterface = (fPtr)GetProcAddress(hDll, "DXGIGetDebugInterface");
+//    IDXGIDebug* pDxgiDebug;
+//    DXGIGetDebugInterface(__uuidof(IDXGIDebug), (void**)&pDxgiDebug);
+//    pDxgiDebug->ReportLiveObjects(DXGI_DEBUG_ALL, DXGI_DEBUG_RLO_ALL);
+//
+//#endif // DEBUG_MEMORY
 
     return 0;
 }

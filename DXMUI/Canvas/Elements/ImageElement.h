@@ -15,6 +15,7 @@ namespace DXMUI
 		~ImageElement();
 		virtual void Render() override; 
 		virtual void SetPosition(const float aX, const float aY) override;
+		virtual DXMUI::Vector2 GetPosition() override;
 
 	private:
 		std::string myPath;

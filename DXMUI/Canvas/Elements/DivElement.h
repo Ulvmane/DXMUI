@@ -9,9 +9,8 @@ namespace DXMUI
 		~DivElement() = default;
 		DivElement();
 		virtual void Render() override;
-
-		// Inherited via ICanvasElement
 		virtual void SetPosition(const float aX, const float aY) override;
+		virtual Vector2 GetPosition() override;
 		void SetHeight(const float aHeight);
 	private:
 		DXMDrawSurface mySurface;

@@ -2,8 +2,8 @@
 
 #include "D3D11_Interface\DXMRenderer.h"
 
-#include "Utility\DXTK\DDSTextureLoader.h"
-#include "Utility\DXTK\WICTextureLoader.h"
+#include <DDSTextureLoader.h>
+#include <WICTextureLoader.h>
 #include "Utility\DXMUI_Util.h"
 
 #include "D3D11_Interface\DXM_D3D11_Interface.h"
@@ -14,7 +14,9 @@ DXMUI::ImageElement::ImageElement(const char* aPath)
 	myPath = aPath;
 	std::wstring wPath = std::wstring(myPath.begin(), myPath.end());
 
-	HRESULT result;
+#undef _XM_NO_INTRINSICS_
+
+	HRESULT result = S_FALSE;
 	result = DirectX::CreateDDSTextureFromFile(DXM_D3D11_Interface::GetDevice(),wPath.c_str(),0, &myTexture);
 	if (FAILED(result))
 	{
@@ -57,7 +59,6 @@ DXMUI::ImageElement::~ImageElement()
 	DXM_SafeRelease(&myTexture);
 }
 
-#include <iostream> // temp
 void DXMUI::ImageElement::Render()
 {
 	DXMRenderer::AddDrawSurface(mySurface);
@@ -66,4 +67,9 @@ void DXMUI::ImageElement::Render()
 void DXMUI::ImageElement::SetPosition(const float aX, const float aY)
 {
 	mySurface.myElementBufferData.myPosition = Vector2{ aX, aY };
+}
+
+DXMUI::Vector2 DXMUI::ImageElement::GetPosition()
+{
+	return mySurface.myElementBufferData.myPosition;
 }

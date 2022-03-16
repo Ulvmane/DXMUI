@@ -57,13 +57,10 @@
     <ClInclude Include="Utility\DXMUI_Util.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Utility\DXTK\DDS.h">
+    <ClInclude Include="D3D11_Interface\DXMTextRenderer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Utility\DXTK\DDSTextureLoader.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Utility\DXTK\WICTextureLoader.h">
+    <ClInclude Include="D3D11_Interface\DXMRenderText.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -101,10 +98,10 @@
     <ClCompile Include="D3D11_Interface\DXMUIRenderSettings.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Utility\DXTK\DDSTextureLoader.cpp">
+    <ClCompile Include="D3D11_Interface\DXMTextRenderer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Utility\DXTK\WICTextureLoader.cpp">
+    <ClCompile Include="D3D11_Interface\DXMRenderText.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -112,5 +109,8 @@
     <FxCompile Include="D3D11_Interface\Shaders\PS_DXMUI_SurfaceElement.hlsl" />
     <FxCompile Include="D3D11_Interface\Shaders\GS_DXMUI_SurfaceElement.hlsl" />
     <FxCompile Include="D3D11_Interface\Shaders\VS_DXMUI_SurfaceElement.hlsl" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
 </Project>

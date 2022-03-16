@@ -15,7 +15,7 @@ cbuffer ElementBuffer : register(b0)
     float2 myElementSize : SIZE;
     float2 myElementPivot : PIVOT;
     bool   myHasTexture : HAS_TEXTURE;
-    float TRASH : TRASH;
+    bool4 TRASH : TRASH;
 }
 
 [maxvertexcount(4)]

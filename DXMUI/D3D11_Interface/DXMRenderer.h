@@ -1,11 +1,13 @@
 #pragma once
 #include <vector>
 #include "DXMDrawSurface.h"
-struct ID3D11DeviceContext;
-struct ID3D11Buffer;
-class ID3D11Device;
-class ID3D11SamplerState;
-class ID3D11BlendState;
+#include "DXMTextRenderer.h"
+
+struct	ID3D11DeviceContext;
+struct	ID3D11Buffer;
+class	ID3D11Device;
+class	ID3D11SamplerState;
+class	ID3D11BlendState;
 namespace DXMUI
 {
 	class DXMRenderer
@@ -22,6 +24,12 @@ namespace DXMUI
 		void SetBuffer(ID3D11DeviceContext* aContext, DXMDrawSurface& aSurface);
 		void SetSamplers(ID3D11DeviceContext* aContext);
 		void SetBlendState(ID3D11DeviceContext* aContext);
+
+		//void SetBuffer(ID3D11DeviceContext* aContext, DXMDrawSurface& aSurface);
+		void ReSetSamplers(ID3D11DeviceContext* aContext);
+		void ReSetBlendState(ID3D11DeviceContext* aContext);
+		void ReSetShaders(ID3D11DeviceContext* aContext);
+		DXMTextRenderer myTextRenderer;
 		ID3D11Buffer* myElementBuffer		= nullptr;
 		ID3D11Buffer* myVertexBuffer		= nullptr;
 		ID3D11SamplerState* mySamplerState	= nullptr;

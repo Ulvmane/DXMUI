@@ -1,6 +1,7 @@
 #pragma once
-#include <string>
+#include "D3D11_Interface\DXMRenderText.h"
 #include "Canvas\ICanvasElement.h"
+
 namespace DXMUI
 {
 	class TextElement : public ICanvasElement
@@ -10,8 +11,10 @@ namespace DXMUI
 		TextElement(const char* aInData);
 		virtual void Render() override;
 		virtual void SetPosition(const float aX, const float aY) override;
+		virtual Vector2 GetPosition() override;
 	private:
-		std::string myData;
+		DXMRenderText myRenderText;
+		Vector2 myScreenSpacePosition;
 	};
 }
 

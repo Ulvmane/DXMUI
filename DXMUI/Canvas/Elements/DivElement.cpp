@@ -24,6 +24,11 @@ void DXMUI::DivElement::SetPosition(const float aX, const float aY)
 
 }
 
+DXMUI::Vector2 DXMUI::DivElement::GetPosition()
+{
+	return mySurface.myElementBufferData.myPosition;
+}
+
 void DXMUI::DivElement::SetHeight(const float aHeight)
 {
 	myHeight = aHeight;

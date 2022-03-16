@@ -1,5 +1,56 @@
 #include "Canvas.h"
 #include "Elements\DivElement.h"
+#include "IInteractableElement.h"
+#include <Windows.h>
+#include "D3D11_Interface\DXM_D3D11_Interface.h"
+
+void DXMUI::Canvas::Update()
+{
+	if ((GetKeyState(VK_LBUTTON) & 0x8000) == 0)
+	{
+		myLMBDown = false;
+		return;
+	}
+	else if (myLMBDown)
+	{
+		return;
+	}
+	myLMBDown = true;
+
+
+	POINT cursorPos;
+	if (!GetCursorPos(&cursorPos))
+		return;
+	if (!ScreenToClient(DXM_D3D11_Interface::GetHWND(), &cursorPos))
+		return;
+	
+	auto clientRect = RECT();
+	GetClientRect(DXM_D3D11_Interface::GetHWND(), &clientRect);
+	auto clientX = float{static_cast<float>(clientRect.right - clientRect.left) };
+	auto clientY = float{static_cast<float>(clientRect.bottom - clientRect.top) };
+
+	auto posX = static_cast<float>(cursorPos.x) / clientX;
+	auto posY = static_cast<float>(cursorPos.y) / clientY;
+
+	int i = 0;
+	for (auto& container : myContainers)
+	{
+		for (auto& element : container.myElements)
+		{
+			auto ePosition = element->GetPosition();
+			if (posX > ePosition.x && posX < ePosition.x + element->GetWidth() &&
+				posY > ePosition.y && posY < ePosition.y + element->GetHeight())
+			{
+				auto interactable = dynamic_cast<IInteractableElement*>(element.get());
+				if (interactable != nullptr)
+				{
+					interactable->Interact();
+				}
+			}
+		}
+	}
+}
+
 void DXMUI::Canvas::Render()
 {
 	for (ElementContainer& container : myContainers)
@@ -8,7 +59,6 @@ void DXMUI::Canvas::Render()
 		{
 			element->Render();
 		}
-		printf("\n");
 	}
 }
 
@@ -32,7 +82,7 @@ void DXMUI::Canvas::Init()
 			}
 			element->SetPosition(x,y);
 			x += element->GetWidth();
-			containerHeight = std::max(containerHeight, element->GetHeight());
+			containerHeight = max(containerHeight, element->GetHeight());
 		}
 
 		for (auto divPtr : divs)
@@ -41,5 +91,23 @@ void DXMUI::Canvas::Init()
 		}
 
 		y += containerHeight;
+	}
+}
+
+void DXMUI::Canvas::SetCallback(const std::string& aID, std::function<void()> aFunction)
+{
+	for (auto& container : myContainers)
+	{
+		for (unsigned int i = 0; i < container.myElements.size(); i++)
+		{
+			if (container.myIdentifier[i] == aID)
+			{
+				auto interactable = dynamic_cast<IInteractableElement*>(container.myElements[i].get());
+				if (interactable != nullptr)
+				{
+					interactable->myCallback = aFunction;
+				}
+			}
+		}
 	}
 }

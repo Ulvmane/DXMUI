@@ -3,6 +3,7 @@
 #include <string>
 #include <vector>
 #include <memory>
+#include <functional>
 
 namespace DXMUI
 {
@@ -10,8 +11,10 @@ namespace DXMUI
 	{
 	public:
 		~Canvas() = default;
+		void Update();
 		void Render();
 		void Init();
+		void SetCallback(const std::string& aID, std::function<void()> aFunction);
 	private:
 		friend class DXMBuilder;
 
@@ -21,7 +24,7 @@ namespace DXMUI
 			std::vector<std::shared_ptr<ICanvasElement>> myElements;
 		};
 		std::vector<ElementContainer> myContainers;
-
+		bool myLMBDown;
 	};
 }
 

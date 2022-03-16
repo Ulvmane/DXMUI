@@ -27,6 +27,12 @@ void DXMUI::DXMRenderer::Render(ID3D11DeviceContext* aContext)
 		drawSurface.Render(aContext);
 	}
 	ourDrawSurfaces.clear();
+
+	ReSetBlendState(aContext);
+	ReSetSamplers(aContext);
+	ReSetShaders(aContext);
+
+	myTextRenderer.Render();
 }
 
 bool DXMUI::DXMRenderer::Init(ID3D11Device* aDevice)
@@ -68,6 +74,9 @@ bool DXMUI::DXMRenderer::Init(ID3D11Device* aDevice)
 	result = aDevice->CreateBlendState(&alphaBlendDesc, &myBlendState);
 	assert(SUCCEEDED(result));
 
+	ID3D11DeviceContext* context;
+	aDevice->GetImmediateContext(&context);
+	myTextRenderer.Init(context, aDevice);
 	return true;
 }
 
@@ -103,6 +112,25 @@ void DXMUI::DXMRenderer::SetBuffer(ID3D11DeviceContext* aContext, DXMDrawSurface
 void DXMUI::DXMRenderer::SetSamplers(ID3D11DeviceContext* aContext)
 {
 	aContext->PSSetSamplers(0, 1, &mySamplerState);
+}
+
+void DXMUI::DXMRenderer::ReSetSamplers(ID3D11DeviceContext* aContext)
+{
+	ID3D11SamplerState* nullState = nullptr;
+	aContext->PSSetSamplers(0, 1, &nullState);
+}
+
+void DXMUI::DXMRenderer::ReSetBlendState(ID3D11DeviceContext* aContext)
+{
+	ID3D11BlendState* nullBlend = nullptr;
+	aContext->OMSetBlendState(nullBlend, 0, 0xffffffff);
+}
+
+void DXMUI::DXMRenderer::ReSetShaders(ID3D11DeviceContext* aContext)
+{
+	aContext->PSSetShader(nullptr, nullptr, 0);
+	aContext->GSSetShader(nullptr, nullptr, 0);
+	aContext->VSSetShader(nullptr, nullptr, 0);
 }
 
 void DXMUI::DXMRenderer::SetBlendState(ID3D11DeviceContext* aContext)
