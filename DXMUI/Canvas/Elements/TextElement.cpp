@@ -1,6 +1,7 @@
 #include "TextElement.h"
 #include "D3D11_Interface\DXMTextRenderer.h"
 #include "D3D11_Interface\DXM_D3D11_Interface.h"
+#include "Parser\Styles\DXUIStyle.h"
 
 DXMUI::TextElement::TextElement(const char* aInData)
 {
@@ -9,15 +10,16 @@ DXMUI::TextElement::TextElement(const char* aInData)
 	myRenderText.myRotation = 0;
 	myRenderText.myScale = Vector2{ 1,1 };
 	myRenderText.myText = std::wstring(data.begin(), data.end());
+	myRenderText.myOrigin = { 0.f, 0.f};
 
 	auto spriteFont = DXMTextRenderer::GetDefaultSpriteFont();
-	auto dimension = spriteFont->MeasureString(myRenderText.myText.c_str(), false) ;
+	auto dimension = spriteFont->MeasureDrawBounds(myRenderText.myText.c_str(), DirectX::XMFLOAT2(0.f, 0.f));
 
 	auto clientRect = RECT();
 	GetClientRect(DXM_D3D11_Interface::GetHWND(), &clientRect);
-	
-	myWidth  = DirectX::XMVectorGetX(dimension) / static_cast<float>(clientRect.right - clientRect.left);
-	myHeight = DirectX::XMVectorGetY(dimension) / static_cast<float>(clientRect.bottom - clientRect.top);
+
+	myWidth  = (dimension.right - dimension.left) / static_cast<float>(clientRect.right - clientRect.left);
+	myHeight = (dimension.bottom - dimension.top) / static_cast<float>(clientRect.bottom - clientRect.top);
 }
 
 void DXMUI::TextElement::Render()
@@ -38,4 +40,12 @@ void DXMUI::TextElement::SetPosition(const float aX, const float aY)
 DXMUI::Vector2 DXMUI::TextElement::GetPosition()
 {
 	return myScreenSpacePosition;
+}
+
+void DXMUI::TextElement::SetStyle(const DXUIStyle& aStyle)
+{
+	myRenderText.myColor = aStyle.myColor;
+	myWidth *= aStyle.mySize.x;
+	myHeight *= aStyle.mySize.y;
+	myRenderText.myScale = aStyle.mySize;
 }

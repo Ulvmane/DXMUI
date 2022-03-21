@@ -18,11 +18,11 @@ void DXMUI::DXMTextRenderer::Render()
 	{
 	auto position = DirectX::XMFLOAT2(text.myPosition.x, text.myPosition.y);
 	auto scale = DirectX::XMFLOAT2(text.myScale.x, text.myScale.y);
-	auto origin = DirectX::XMFLOAT2(0.f, 0.f);
+	auto origin = DirectX::XMFLOAT2(text.myOrigin.x, text.myOrigin.y);
 	mySpriteFont->DrawString(mySpriteBatch.get(),
 							  text.myText.c_str(),
 							  position, 
-							  DirectX::Colors::Green,
+							  DirectX::XMVECTORF32{text.myColor.r, text.myColor.g, text.myColor.b, text.myColor.a},
 							  text.myRotation,
 							  origin,
 							  scale,

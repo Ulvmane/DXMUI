@@ -19,8 +19,8 @@ namespace DXMUI
 	struct DXUIStyle
 	{
 		std::string myFont;
-		Color myColor;
-		Vector2 mySize;
+		Color myColor = {0.f,0.f,0.f,1.f};
+		Vector2 mySize = {1.f, 1.f};
 		Vector2 alignment;
 	};
 }

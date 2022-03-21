@@ -111,3 +111,27 @@ void DXMUI::Canvas::SetCallback(const std::string& aID, std::function<void()> aF
 		}
 	}
 }
+
+void DXMUI::Canvas::ApplyStyle(const DXStyleSheet& aStyleSheet)
+{
+	for (auto& idStylePair : aStyleSheet.myStyleMap)
+	{
+		ApplyStyleToContainers(idStylePair.first, idStylePair.second);
+	}
+
+	Init();
+}
+
+void DXMUI::Canvas::ApplyStyleToContainers(const std::string& aID, const DXUIStyle& aStyle)
+{
+	for (auto& container : myContainers)
+	{
+		for (unsigned int i = 0; i < container.myElements.size(); i++)
+		{
+			if (container.myIdentifier[i] == aID)
+			{
+				container.myElements[i]->SetStyle(aStyle);
+			}
+		}
+	}
+}

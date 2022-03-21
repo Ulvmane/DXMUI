@@ -17,6 +17,7 @@ namespace DXMUI
 		__inline DXUIStyle& GetStyle(const std::string& aID) { return myStyleMap[aID]; }
 		void SetIdentifier(const std::string& aID);
 	private:
+		friend class Canvas;
 		std::unordered_map<std::string, DXUIStyle> myStyleMap;
 	};
 }

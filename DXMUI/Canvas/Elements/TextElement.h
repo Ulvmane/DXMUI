@@ -15,6 +15,9 @@ namespace DXMUI
 	private:
 		DXMRenderText myRenderText;
 		Vector2 myScreenSpacePosition;
+
+		// Inherited via ICanvasElement
+		virtual void SetStyle(const DXUIStyle& aStyle) override;
 	};
 }
 

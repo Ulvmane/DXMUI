@@ -11,7 +11,7 @@ namespace DXMUI
 		virtual Vector2 GetPosition() = 0;
 		__forceinline virtual float GetHeight() {return myHeight;}
 		__forceinline virtual float GetWidth()  {return myWidth ;}
-
+		virtual void SetStyle(const class DXUIStyle& aStyle) = 0;
 	protected:
 		float myHeight = 0;
 		float myWidth  = 0;

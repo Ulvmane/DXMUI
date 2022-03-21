@@ -14,7 +14,7 @@ bool DXMUI::DXStyleSheet::SetSizeY(const std::string& aID, float aY)
 	auto style = myStyleMap.find(aID);
 	if (style == myStyleMap.end())
 		return false;
-	style->second.mySize.x = aY;
+	style->second.mySize.y = aY;
 	return true;
 }
 

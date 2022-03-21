@@ -107,10 +107,6 @@ void DXMUI::DXMParser::ParseTag(DXMBuilder& aBuilder)
 		{
 			myIDStack.push(std::string(myTagBuffer.begin() + idOffset + 1 , myTagBuffer.end()));
 		}
-		else
-		{
-			myIDStack.push(std::string());
-		}
 		myDepth++;
 	}
 	myTagBuffer = std::string();
@@ -144,6 +140,8 @@ void DXMUI::DXMParser::AttachDataToBuilder(DXMBuilder& aBuilder)
 
 void DXMUI::DXMParser::AppendData(DXMBuilder& aBuilder, ICanvasElement* aElement)
 {
-	aBuilder.DivAppend(myDepth, myIDStack.top(), aElement);
-	myIDStack.pop();
+	auto id = myIDStack.empty() ? std::string() : myIDStack.top();
+	aBuilder.DivAppend(myDepth, id, aElement);
+	if(!myIDStack.empty())
+		myIDStack.pop();
 }

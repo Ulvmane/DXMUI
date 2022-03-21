@@ -15,6 +15,7 @@ namespace DXMUI
         virtual void Render() override;
         virtual void SetPosition(const float aX, const float aY) override;
         virtual Vector2 GetPosition() override;
+        void SetStyle(const class DXUIStyle& aStyle) override;
     private:
         std::string myText;
         DXMRenderText myRenderText;

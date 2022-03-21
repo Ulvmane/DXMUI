@@ -2,6 +2,8 @@
 #include "D3D11_Interface\DXMRenderer.h"
 #include "D3D11_Interface\DXMTextRenderer.h"
 #include "D3D11_Interface\DXM_D3D11_Interface.h"
+#include "Parser\Styles\DXUIStyle.h"
+
 DXMUI::ButtonElement::ButtonElement(const char* aText)
 {
 	auto data = std::string(aText);
@@ -12,16 +14,16 @@ DXMUI::ButtonElement::ButtonElement(const char* aText)
 	myRenderText.myText = std::wstring(data.begin(), data.end());
 
 	auto spriteFont = DXMTextRenderer::GetDefaultSpriteFont();
-	auto dimension = spriteFont->MeasureString(myRenderText.myText.c_str(), false);
 
 	auto clientRect = RECT();
 	GetClientRect(DXM_D3D11_Interface::GetHWND(), &clientRect);
 	auto clientWidth  = static_cast<float>(clientRect.right - clientRect.left);
 	auto clientHeight = static_cast<float>(clientRect.bottom - clientRect.top);
 
-	myWidth = DirectX::XMVectorGetX(dimension) / clientWidth;
-	myHeight = DirectX::XMVectorGetY(dimension) /clientHeight;
-
+	auto dimension = spriteFont->MeasureDrawBounds(myRenderText.myText.c_str(), DirectX::XMFLOAT2(0.f, 0.f));
+	myWidth = (dimension.right - dimension.left) / static_cast<float>(clientRect.right - clientRect.left);
+	myHeight = (dimension.bottom - dimension.top) / static_cast<float>(clientRect.bottom - clientRect.top);
+	myRenderText.myOrigin = { 0.f, 0.f};
 
 	mySurface.myElementBufferData.myHasTexture = false;
 	mySurface.myElementBufferData.myColor = Color{ 0,0,0,0.5f };
@@ -51,4 +53,13 @@ void DXMUI::ButtonElement::SetPosition(const float aX, const float aY)
 DXMUI::Vector2 DXMUI::ButtonElement::GetPosition()
 {
 	return mySurface.myElementBufferData.myPosition;
+}
+
+void DXMUI::ButtonElement::SetStyle(const DXUIStyle& aStyle)
+{
+	mySurface.myElementBufferData.myColor = aStyle.myColor;
+	myWidth *= aStyle.mySize.x;
+	myHeight *= aStyle.mySize.y;
+	myRenderText.myScale = aStyle.mySize;
+	mySurface.myElementBufferData.mySize = { myWidth, myHeight };
 }

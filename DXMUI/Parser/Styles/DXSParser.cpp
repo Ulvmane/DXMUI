@@ -12,8 +12,8 @@ DXMUI::DXSParser::DXSParser()
 {
 	myStyleTypeMap["Color"] = eStyleType::Color;
 	myStyleTypeMap["color"] = eStyleType::Color;
-	myStyleTypeMap["SizeX"] = eStyleType::SizeX;
-	myStyleTypeMap["SizeY"] = eStyleType::SizeY;
+	myStyleTypeMap["scaleX"] = eStyleType::SizeX;
+	myStyleTypeMap["scaleY"] = eStyleType::SizeY;
 	myStyleTypeMap["AlignmentX"] = eStyleType::AlignmentX;
 	myStyleTypeMap["alignmentX"] = eStyleType::AlignmentX;
 	myStyleTypeMap["alignmentY"] = eStyleType::AlignmentY;
@@ -39,6 +39,11 @@ DXMUI::DXStyleSheet DXMUI::DXSParser::Parse(const std::wstring& aPath)
 		switch (c)
 		{
 			case '.':
+				if (myBuffer == eCurrentBuffer::Value)
+				{
+					myBuffers[static_cast<unsigned int>(myBuffer)] += c;
+					break;
+				}
 				myIdentifierBuffer = std::string();
 				myBuffers[static_cast<unsigned int>(eCurrentBuffer::Identifier)] = std::string();
 				myBuffer = eCurrentBuffer::Identifier;
@@ -86,37 +91,43 @@ void DXMUI::DXSParser::ParseLine(DXStyleSheet& aBuilder)
 
 void DXMUI::DXSParser::ParseData(DXStyleSheet& aBuilder)
 {
-	auto type = myStyleTypeMap.find(myStyleBuffer);
+	auto& IDBuffer = myBuffers[static_cast<unsigned int>(eCurrentBuffer::Identifier)];
+	auto& valueBuffer = myBuffers[static_cast<unsigned int>(eCurrentBuffer::Value)];
+	auto& styleBuffer = myBuffers[static_cast<unsigned int>(eCurrentBuffer::Style)];
+	auto type = myStyleTypeMap.find(styleBuffer);
 	if (type == myStyleTypeMap.end())
 		assert(false && "Syntax Error, incorrect style tag");
 
-	aBuilder.SetIdentifier(myIdentifierBuffer);
+
+	
+	aBuilder.SetIdentifier(IDBuffer);
 	switch (type->second)
 	{
 		case eStyleType::SizeX:
-			aBuilder.SetSizeX(myIdentifierBuffer, BufferToFloat(myValueBuffer));
-			break;								  
-		case eStyleType::SizeY:					  
-			aBuilder.SetSizeY(myIdentifierBuffer, BufferToFloat(myValueBuffer));
-			break;								  
-		case eStyleType::Color:					  
-			aBuilder.SetColor(myIdentifierBuffer, BufferToColor(myValueBuffer));
+			aBuilder.SetSizeX(IDBuffer, BufferToFloat(valueBuffer));
+			break;
+		case eStyleType::SizeY:
+			aBuilder.SetSizeY(IDBuffer, BufferToFloat(valueBuffer));
+			break;
+		case eStyleType::Color:
+			aBuilder.SetColor(IDBuffer, BufferToColor(valueBuffer));
 			break;
 		case eStyleType::Font:
-			aBuilder.SetFont(myIdentifierBuffer, myValueBuffer);
+			aBuilder.SetFont(IDBuffer, valueBuffer);
 			break;
 		case eStyleType::AlignmentX:
-			aBuilder.SetSizeX(myIdentifierBuffer, BufferToFloat(myValueBuffer));
+			aBuilder.SetSizeX(IDBuffer, BufferToFloat(valueBuffer));
 			break;
 		case eStyleType::AlignmentY:
-			aBuilder.SetSizeX(myIdentifierBuffer, BufferToFloat(myValueBuffer));
+			aBuilder.SetSizeX(IDBuffer, BufferToFloat(valueBuffer));
 			break;
 		default:
 			break;
 	}
 
-	myValueBuffer = std::string();
-	myStyleBuffer = std::string();
+	valueBuffer = std::string();
+	styleBuffer = std::string();
+	myBuffer = eCurrentBuffer::Style;
 }
 
 
@@ -153,10 +164,10 @@ DXMUI::Color DXMUI::DXSParser::BufferToColor(std::string& aBuffer)
 		return Color{ 0, 0, 0, 0 };
 	}
 
-	auto fR = static_cast<unsigned int>(r) / 255.f;
-	auto fG = static_cast<unsigned int>(g) / 255.f;
-	auto fB = static_cast<unsigned int>(b) / 255.f;
-	auto fA = static_cast<unsigned int>(a) / 255.f;
+	auto fR = static_cast<float>(r) / 255.f;
+	auto fG = static_cast<float>(g) / 255.f;
+	auto fB = static_cast<float>(b) / 255.f;
+	auto fA = static_cast<float>(a) / 255.f;
 
 	return Color{fR, fG, fB, fA};
 }

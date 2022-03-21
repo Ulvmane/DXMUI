@@ -1,6 +1,7 @@
 #include "DivElement.h"
 #include <iostream>
 #include "D3D11_Interface\DXMRenderer.h"
+#include "Parser\Styles\DXUIStyle.h"
 
 DXMUI::DivElement::DivElement()
 {
@@ -33,4 +34,9 @@ void DXMUI::DivElement::SetHeight(const float aHeight)
 {
 	myHeight = aHeight;
 	mySurface.myElementBufferData.mySize = Vector2{ 1, myHeight };
+}
+
+void DXMUI::DivElement::SetStyle(const DXUIStyle& aStyle)
+{
+	mySurface.myElementBufferData.myColor = aStyle.myColor;
 }

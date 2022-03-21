@@ -12,6 +12,7 @@ namespace DXMUI
 		virtual void SetPosition(const float aX, const float aY) override;
 		virtual Vector2 GetPosition() override;
 		void SetHeight(const float aHeight);
+		void SetStyle(const class DXUIStyle& aStyle) override;
 	private:
 		DXMDrawSurface mySurface;
 	};

@@ -7,6 +7,8 @@
 #include "Utility\DXMUI_Util.h"
 
 #include "D3D11_Interface\DXM_D3D11_Interface.h"
+
+#include "Parser\Styles\DXUIStyle.h"
 #include <assert.h>
 
 DXMUI::ImageElement::ImageElement(const char* aPath)
@@ -72,4 +74,13 @@ void DXMUI::ImageElement::SetPosition(const float aX, const float aY)
 DXMUI::Vector2 DXMUI::ImageElement::GetPosition()
 {
 	return mySurface.myElementBufferData.myPosition;
+}
+
+void DXMUI::ImageElement::SetStyle(const DXUIStyle& aStyle)
+{
+	mySurface.myElementBufferData.myColor = aStyle.myColor;
+	mySurface.myElementBufferData.mySize.x *= aStyle.mySize.x;
+	mySurface.myElementBufferData.mySize.y *= aStyle.mySize.y;
+	myWidth *= aStyle.mySize.x;
+	myHeight *= aStyle.mySize.y;
 }

@@ -18,6 +18,8 @@ namespace DXMUI
 		void SetCallback(const std::string& aID, std::function<void()> aFunction);
 		void ApplyStyle(const DXStyleSheet& aStyleSheet);
 	private:
+		void ApplyStyleToContainers(const std::string& aID, const DXUIStyle& aStyle);
+	private:
 		friend class DXMBuilder;
 
 		struct ElementContainer
