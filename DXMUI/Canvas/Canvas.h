@@ -4,6 +4,7 @@
 #include <vector>
 #include <memory>
 #include <functional>
+#include "Parser\Styles\DXStyleSheet.h"
 
 namespace DXMUI
 {
@@ -15,6 +16,7 @@ namespace DXMUI
 		void Render();
 		void Init();
 		void SetCallback(const std::string& aID, std::function<void()> aFunction);
+		void ApplyStyle(const DXStyleSheet& aStyleSheet);
 	private:
 		friend class DXMBuilder;
 

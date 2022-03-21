@@ -4,6 +4,7 @@
 
 #include "Canvas\Canvas.h"
 #include "Parser\Markup\DXMParser.h"
+#include "Parser\Styles\DXSParser.h"
 #include "Parser\Markup\MarkupBuilder.h"
 #include "D3D11_Interface\DXM_D3D11_Interface.h"
 #include <dxgidebug.h>
@@ -26,7 +27,7 @@ int main()
     DXMUI::Canvas myCanvas;
     DXMUI::DXMBuilder myBuilder;
     DXMUI::DXMParser myMarkupParser;
-
+    DXMUI::DXSParser myStyleParser;
     DXMUI::DXM_D3D11_Interface myInterface;
 
     CDirectX11Framework& framework = graphicsEngine.GetFramework();
@@ -37,7 +38,7 @@ int main()
     myBuilder = myMarkupParser.Parse(L"Test_Markup.DXMarkup");
     myCanvas = myBuilder.Build();
     myCanvas.Init();
-
+    myCanvas.ApplyStyle(myStyleParser.Parse(L"Test_Style.DXStyle"));
     myCanvas.SetCallback("callbackID_1", [&]() { printf("callbackID_1 was pressed \n"); });
     myCanvas.SetCallback("callbackID_2", [&]() { printf("callbackID_2 was pressed \n"); });
 
