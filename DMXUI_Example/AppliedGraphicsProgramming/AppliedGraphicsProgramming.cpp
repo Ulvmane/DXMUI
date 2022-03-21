@@ -38,8 +38,8 @@ int main()
     myCanvas = myBuilder.Build();
     myCanvas.Init();
 
-    //myCanvas.SetCallback("callbackID_1", [&]() { printf("callbackID_1 was pressed \n"); });
-    //myCanvas.SetCallback("callbackID_2", [&]() { printf("callbackID_2 was pressed \n"); });
+    myCanvas.SetCallback("callbackID_1", [&]() { printf("callbackID_1 was pressed \n"); });
+    myCanvas.SetCallback("callbackID_2", [&]() { printf("callbackID_2 was pressed \n"); });
 
     while (shouldRun)
     {

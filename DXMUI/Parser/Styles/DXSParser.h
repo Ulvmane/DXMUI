@@ -1,46 +1,41 @@
 #pragma once
 #include <string>
-#include "DXUIStyle.h"
+#include "DXStyleSheet.h"
 #include "Canvas\Canvas.h"
-#include <map>
-#include <functional>
-#include <stack>
-
+#include <array>
 namespace DXMUI
 {
 	class DXSParser
 	{
 	public:
 		DXSParser();
-		DXUIStyle Parse(const std::wstring& aPath);
-		void	   Unparse(const std::wstring& aPath, const Canvas* aCanvas);
+		DXStyleSheet Parse(const std::wstring& aPath);
+		void	     Unparse(const std::wstring& aPath, const Canvas* aCanvas);
 	
 	private:
-		void ParseTag(DXUIStyle& aBuilder);
-		void AttachDataToBuilder(DXUIStyle& aBuilder);
-		void AppendData(DXUIStyle& aBuilder, ICanvasElement* aElement);
+		void ParseLine(DXStyleSheet& aBuilder);
+		void ParseData(DXStyleSheet& aBuilder);
+		void AttachDataToBuilder(DXStyleSheet& aBuilder);
+		void AppendData(DXStyleSheet& aBuilder, ICanvasElement* aElement);
 	private:
-		enum class eTagType
-		{
-			Text,
-			Div,
-			Image,
-			Button
-		};
 
 		enum class eCurrentBuffer
 		{
-			InputField,
-			Element,
-			Tag
-		} myBuffer = eCurrentBuffer::InputField;
+			Identifier,
+			Style,
+			Value
+		} myBuffer = eCurrentBuffer::Identifier;
 
 	private:
-		std::string myTagBuffer;
-		std::stack<std::string> myContentStack;
-		std::stack<std::string> myIDStack;
-		std::stack<eTagType> myTypeStack;
-		unsigned int myDepth;
+		float BufferToFloat(std::string& aBuffer);
+		Color BufferToColor(std::string& aBuffer);
+
+		std::string myIdentifierBuffer;
+		std::string myStyleBuffer;
+		std::string myValueBuffer;
+
+		std::array<std::string, 3> myBuffers;
+		std::unordered_map<std::string, eStyleType> myStyleTypeMap;
 	};
 }
 
