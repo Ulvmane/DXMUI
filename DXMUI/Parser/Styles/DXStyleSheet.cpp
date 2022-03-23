@@ -29,19 +29,37 @@ bool DXMUI::DXStyleSheet::SetColor(const std::string& aID, const Color& aColor)
 
 bool DXMUI::DXStyleSheet::SetAlignX(const std::string& aID, float aX)
 {
-	//auto style = myStyleMap.find(aID);
-	//if (style == myStyleMap.end())
-	//	return false;
-	//style->second.myColor = aColor;
+	auto style = myStyleMap.find(aID);
+	if (style == myStyleMap.end())
+		return false;
+	style->second.myAlignment.x = aX / 100.f;
 	return true;
 }
 
 bool DXMUI::DXStyleSheet::SetAlignY(const std::string& aID, float aY)
 {
-	//auto style = myStyleMap.find(aID);
-	//if (style == myStyleMap.end())
-	//	return false;
-	//style->second.myColor = aColor;
+	auto style = myStyleMap.find(aID);
+	if (style == myStyleMap.end())
+		return false;
+	style->second.myAlignment.y = aY / 100.f;
+	return true;
+}
+
+bool DXMUI::DXStyleSheet::SetPivotX(const std::string& aID, float aX)
+{
+	auto style = myStyleMap.find(aID);
+	if (style == myStyleMap.end())
+		return false;
+	style->second.myPivot.x = aX;
+	return true;
+}
+
+bool DXMUI::DXStyleSheet::SetPivotY(const std::string& aID, float aY)
+{
+	auto style = myStyleMap.find(aID);
+	if (style == myStyleMap.end())
+		return false;
+	style->second.myPivot.x = aY;
 	return true;
 }
 

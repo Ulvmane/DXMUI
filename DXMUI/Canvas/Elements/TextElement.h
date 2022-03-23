@@ -15,6 +15,7 @@ namespace DXMUI
 	private:
 		DXMRenderText myRenderText;
 		Vector2 myScreenSpacePosition;
+		Vector2 myFontOffset;
 		virtual void SetStyle(const DXUIStyle& aStyle) override;
 	};
 }

@@ -15,6 +15,8 @@ namespace DXMUI
 	protected:
 		float myHeight = 0;
 		float myWidth  = 0;
+		Vector2 myAlignment;
+		Vector2 myPivot;
 	};
 }
 

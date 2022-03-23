@@ -27,4 +27,5 @@ namespace DXMUI
 		float endX = 0, endY = 0;
 	};
 
+	Vector2 AdjustByAlignmentAndPivot(const Vector2& aPosition, const Vector2& aAlignment, const Vector2& aPivot, const Vector2& aElementBounds);
 }

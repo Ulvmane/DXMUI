@@ -140,6 +140,7 @@
     <ClCompile Include="D3D11_Interface\DXMUIRenderSettings.cpp" />
     <ClCompile Include="D3D11_Interface\DXMRenderText.cpp" />
     <ClCompile Include="D3D11_Interface\DXMTextRenderer.cpp" />
+    <ClCompile Include="Utility\DXMUI_Util.cpp" />
     <ClCompile Include="Utility\FontHandler.cpp" />
     <ClCompile Include="Parser\Styles\DXStyleSheet.cpp" />
     <ClCompile Include="Parser\Styles\DXUIStyle.cpp" />

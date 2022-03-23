@@ -128,7 +128,7 @@ void DXMUI::Canvas::ApplyStyleToContainers(const std::string& aID, const DXUISty
 	{
 		for (unsigned int i = 0; i < container.myElements.size(); i++)
 		{
-			if (container.myIdentifier[i] == aID)
+			if (container.myIdentifier[i].compare(aID) == 0)
 			{
 				container.myElements[i]->SetStyle(aStyle);
 			}

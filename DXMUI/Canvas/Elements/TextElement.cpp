@@ -13,18 +13,35 @@ DXMUI::TextElement::TextElement(const char* aInData)
 	myRenderText.myOrigin = { 0.f, 0.f};
 
 	auto spriteFont = DXMTextRenderer::GetDefaultSpriteFont();
-	auto dimension = spriteFont->MeasureDrawBounds(myRenderText.myText.c_str(), DirectX::XMFLOAT2(0.f, 0.f));
-
+	spriteFont->SetDefaultCharacter(L' ');
+	
+	auto drawRect = spriteFont->MeasureDrawBounds(myRenderText.myText.c_str(), DirectX::XMFLOAT2(0.f, 0.f), true);
 	auto clientRect = RECT();
 	GetClientRect(DXM_D3D11_Interface::GetHWND(), &clientRect);
+	myFontOffset.x = drawRect.left / static_cast<float>(clientRect.right - clientRect.left);
 
-	myWidth  = (dimension.right - dimension.left) / static_cast<float>(clientRect.right - clientRect.left);
-	myHeight = (dimension.bottom - dimension.top) / static_cast<float>(clientRect.bottom - clientRect.top);
+	auto dimension = (spriteFont->MeasureString(myRenderText.myText.c_str(), false));
+
+	myWidth  = ((DirectX::XMVectorGetX(dimension)) - drawRect.left) / static_cast<float>(clientRect.right - clientRect.left);
+	myHeight = (DirectX::XMVectorGetY(dimension)) / static_cast<float>(clientRect.bottom - clientRect.top);
 }
 
 void DXMUI::TextElement::Render()
 {
 	DXMTextRenderer::AddText(myRenderText);
+
+
+	////auto bg = DXMDrawSurface();
+	////bg.myElementBufferData.myColor = { 0,0,0,1 };
+	////bg.myElementBufferData.myHasTexture = false;
+	////bg.myElementBufferData.myTextureRect = { 0,0,1,1 };
+	////bg.myElementBufferData.myPivot = myPivot;
+	////bg.myElementBufferData.myPosition = myScreenSpacePosition;
+	////bg.myElementBufferData.myPosition.x -= myFontOffset.x;
+	////bg.myElementBufferData.mySize = { myWidth,myHeight };
+
+	//DXMRenderer::AddDrawSurface(bg);
+	
 }
 
 void DXMUI::TextElement::SetPosition(const float aX, const float aY)
@@ -33,8 +50,12 @@ void DXMUI::TextElement::SetPosition(const float aX, const float aY)
 	GetClientRect(DXM_D3D11_Interface::GetHWND(), &clientRect);
 	auto windowWidth  =  static_cast<float>(clientRect.right - clientRect.left);
 	auto windowHeight =  static_cast<float>(clientRect.bottom - clientRect.top);
-	myRenderText.myPosition = Vector2{ aX * windowWidth, aY * windowHeight };
-	myScreenSpacePosition = Vector2{ aX, aY };
+
+	auto adjustedPosition = AdjustByAlignmentAndPivot({ aX, aY }, myAlignment, {0,0}, { myWidth, myHeight });
+
+	myRenderText.myOrigin.x = windowWidth * myWidth * myPivot.x;
+	myRenderText.myPosition = Vector2{ adjustedPosition.x * windowWidth, adjustedPosition.y * windowHeight };
+	myScreenSpacePosition	= adjustedPosition;
 }
 
 DXMUI::Vector2 DXMUI::TextElement::GetPosition()
@@ -49,4 +70,6 @@ void DXMUI::TextElement::SetStyle(const DXUIStyle& aStyle)
 	myHeight *= aStyle.mySize.y;
 	myRenderText.myScale = aStyle.mySize;
 	myRenderText.myFont = aStyle.myFont;
+	myAlignment = aStyle.myAlignment;
+	myPivot = aStyle.myPivot;
 }

@@ -48,7 +48,8 @@ DXMUI::DXMBuilder DXMUI::DXMParser::Parse(const std::wstring& aPath)
 				}
 				else
 				{
-					myTagBuffer += c;
+					if(c != ' ')
+						myTagBuffer += c;
 				}
 				break;
 		}	

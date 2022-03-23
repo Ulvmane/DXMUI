@@ -9,6 +9,8 @@ enum class eStyleType : unsigned char
 	SizeY,
 	AlignmentX,
 	AlignmentY,
+	PivotX,
+	PivotY,
 	Color,
 	Font,
 	Count,
@@ -21,7 +23,8 @@ namespace DXMUI
 		std::string myFont{""};
 		Color myColor{0.f,0.f,0.f,1.f};
 		Vector2 mySize{1.f, 1.f};
-		Vector2 alignment{0.f, 0.f};
+		Vector2 myAlignment{0.f, 0.f};
+		Vector2 myPivot{0.f, 0.f};
 	};
 }
 

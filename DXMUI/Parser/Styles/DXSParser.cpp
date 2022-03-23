@@ -14,12 +14,14 @@ DXMUI::DXSParser::DXSParser()
 	myStyleTypeMap["color"] = eStyleType::Color;
 	myStyleTypeMap["scaleX"] = eStyleType::SizeX;
 	myStyleTypeMap["scaleY"] = eStyleType::SizeY;
-	myStyleTypeMap["AlignmentX"] = eStyleType::AlignmentX;
-	myStyleTypeMap["alignmentX"] = eStyleType::AlignmentX;
-	myStyleTypeMap["alignmentY"] = eStyleType::AlignmentY;
-	myStyleTypeMap["alignmentY"] = eStyleType::AlignmentY;
+	myStyleTypeMap["AlignX"] = eStyleType::AlignmentX;
+	myStyleTypeMap["AlignY"] = eStyleType::AlignmentY;
+	myStyleTypeMap["alignX"] = eStyleType::AlignmentX;
+	myStyleTypeMap["alignY"] = eStyleType::AlignmentY;
 	myStyleTypeMap["font"] = eStyleType::Font;
 	myStyleTypeMap["Font"] = eStyleType::Font;
+	myStyleTypeMap["pivotX"] = eStyleType::PivotX;
+	myStyleTypeMap["pivotY"] = eStyleType::PivotY;
 }
 
 DXMUI::DXStyleSheet DXMUI::DXSParser::Parse(const std::wstring& aPath)
@@ -116,11 +118,16 @@ void DXMUI::DXSParser::ParseData(DXStyleSheet& aBuilder)
 			aBuilder.SetFont(IDBuffer, valueBuffer);
 			break;
 		case eStyleType::AlignmentX:
-			aBuilder.SetSizeX(IDBuffer, BufferToFloat(valueBuffer));
+			aBuilder.SetAlignX(IDBuffer, BufferToFloat(valueBuffer));
 			break;
 		case eStyleType::AlignmentY:
-			aBuilder.SetSizeX(IDBuffer, BufferToFloat(valueBuffer));
+			aBuilder.SetAlignY(IDBuffer, BufferToFloat(valueBuffer));
 			break;
+		case eStyleType::PivotX:
+			aBuilder.SetPivotX(IDBuffer, BufferToFloat(valueBuffer));
+			break;
+		case eStyleType::PivotY:
+			aBuilder.SetPivotY(IDBuffer, BufferToFloat(valueBuffer));
 		default:
 			break;
 	}
