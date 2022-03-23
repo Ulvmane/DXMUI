@@ -48,4 +48,5 @@ void DXMUI::TextElement::SetStyle(const DXUIStyle& aStyle)
 	myWidth *= aStyle.mySize.x;
 	myHeight *= aStyle.mySize.y;
 	myRenderText.myScale = aStyle.mySize;
+	myRenderText.myFont = aStyle.myFont;
 }

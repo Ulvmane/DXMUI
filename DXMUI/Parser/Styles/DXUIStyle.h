@@ -18,10 +18,10 @@ namespace DXMUI
 {
 	struct DXUIStyle
 	{
-		std::string myFont;
-		Color myColor = {0.f,0.f,0.f,1.f};
-		Vector2 mySize = {1.f, 1.f};
-		Vector2 alignment;
+		std::string myFont{""};
+		Color myColor{0.f,0.f,0.f,1.f};
+		Vector2 mySize{1.f, 1.f};
+		Vector2 alignment{0.f, 0.f};
 	};
 }
 

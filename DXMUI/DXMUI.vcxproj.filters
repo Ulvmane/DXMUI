@@ -72,6 +72,9 @@
     <ClInclude Include="Parser\Styles\DXStyleSheet.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Utility\FontHandler.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Parser\Markup\DXMParser.cpp">
@@ -120,6 +123,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Parser\Styles\DXStyleSheet.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Utility\FontHandler.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

@@ -120,6 +120,7 @@
     <ClInclude Include="D3D11_Interface\DXMUIRenderSettings.h" />
     <ClInclude Include="D3D11_Interface\DXMRenderText.h" />
     <ClInclude Include="D3D11_Interface\DXMTextRenderer.h" />
+    <ClInclude Include="Utility\FontHandler.h" />
     <ClInclude Include="Parser\Styles\DXStyleSheet.h" />
     <ClInclude Include="Parser\Styles\DXUIStyle.h" />
     <ClInclude Include="Parser\Markup\MarkupBuilder.h" />
@@ -139,6 +140,7 @@
     <ClCompile Include="D3D11_Interface\DXMUIRenderSettings.cpp" />
     <ClCompile Include="D3D11_Interface\DXMRenderText.cpp" />
     <ClCompile Include="D3D11_Interface\DXMTextRenderer.cpp" />
+    <ClCompile Include="Utility\FontHandler.cpp" />
     <ClCompile Include="Parser\Styles\DXStyleSheet.cpp" />
     <ClCompile Include="Parser\Styles\DXUIStyle.cpp" />
     <ClCompile Include="Parser\Markup\MarkupBuilder.cpp" />

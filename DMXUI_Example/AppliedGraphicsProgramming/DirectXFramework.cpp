@@ -16,7 +16,6 @@ CDirectX11Framework::~CDirectX11Framework()
 	mySwapChain->SetFullscreenState(false, NULL);
 	DXM_SafeRelease(&mySwapChain);
 	DXM_SafeRelease(&myBackBuffer);
-	//DXM_SafeRelease(&myDevice);
 }
 
 void CDirectX11Framework::BeginFrame(std::array<float, 4> aClearColor)
@@ -37,7 +36,8 @@ bool CDirectX11Framework::Init(CWindowHandler* aWindowHandler)
 	swapChainDesc.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
 	swapChainDesc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
 	swapChainDesc.OutputWindow = aWindowHandler->GetWindowHandle();
-	swapChainDesc.SampleDesc.Count = 1;
+	swapChainDesc.SampleDesc.Count = 2;
+	swapChainDesc.SampleDesc.Quality = 0;
 	swapChainDesc.Windowed = true;
 
 	result = D3D11CreateDeviceAndSwapChain(nullptr, D3D_DRIVER_TYPE_HARDWARE,
