@@ -15,6 +15,9 @@ namespace DXMUI
 		bool SetPivotX(const std::string& aID, float aX);
 		bool SetPivotY(const std::string& aID, float aY);
 		bool SetFont(const std::string& aID, const std::string& aPath);
+		bool SetPadding(const std::string& aID, const Box& aBox);
+		bool SetMargin(const std::string& aID, const Box& aBox);
+		bool SetBorder(const std::string& aID, const Box& aBox);
 
 		__inline DXUIStyle& GetStyle(const std::string& aID) { return myStyleMap[aID]; }
 		void SetIdentifier(const std::string& aID);
@@ -23,4 +26,3 @@ namespace DXMUI
 		std::unordered_map<std::string, DXUIStyle> myStyleMap;
 	};
 }
-

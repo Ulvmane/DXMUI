@@ -22,6 +22,9 @@ DXMUI::DXSParser::DXSParser()
 	myStyleTypeMap["Font"] = eStyleType::Font;
 	myStyleTypeMap["pivotX"] = eStyleType::PivotX;
 	myStyleTypeMap["pivotY"] = eStyleType::PivotY;
+	myStyleTypeMap["margin"] = eStyleType::Margin;
+	myStyleTypeMap["padding"] = eStyleType::Padding;
+	myStyleTypeMap["border"] = eStyleType::Border;
 }
 
 DXMUI::DXStyleSheet DXMUI::DXSParser::Parse(const std::wstring& aPath)
@@ -100,8 +103,6 @@ void DXMUI::DXSParser::ParseData(DXStyleSheet& aBuilder)
 	if (type == myStyleTypeMap.end())
 		assert(false && "Syntax Error, incorrect style tag");
 
-
-	
 	aBuilder.SetIdentifier(IDBuffer);
 	switch (type->second)
 	{
@@ -128,6 +129,25 @@ void DXMUI::DXSParser::ParseData(DXStyleSheet& aBuilder)
 			break;
 		case eStyleType::PivotY:
 			aBuilder.SetPivotY(IDBuffer, BufferToFloat(valueBuffer));
+			break;
+		case eStyleType::Padding:
+		{
+			auto size = BufferToFloat(valueBuffer);
+			aBuilder.SetPadding(IDBuffer, {size,size,size,size});
+		}
+			break;
+		case eStyleType::Margin:
+		{
+			auto size = BufferToFloat(valueBuffer);
+			aBuilder.SetMargin(IDBuffer, { size,size,size,size });
+		}
+			break;
+		case eStyleType::Border:
+		{
+			auto size = BufferToFloat(valueBuffer);
+			aBuilder.SetBorder(IDBuffer, { size,size,size,size });
+		}
+			break;
 		default:
 			break;
 	}

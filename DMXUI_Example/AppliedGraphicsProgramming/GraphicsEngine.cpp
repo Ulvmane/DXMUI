@@ -17,7 +17,7 @@ bool CGraphicsEngine::Init(CWindowHandler::SWindowData& aWindowData)
 
 void CGraphicsEngine::BeginFrame()
 {
-	std::array<float, 4> clearColor = { 1,0,0,1 }; //Red clear
+	std::array<float, 4> clearColor = { 0.1,0.1,0.1,1 }; //Gray clear
 	myFrameWork.BeginFrame(clearColor);
 }
 

@@ -66,8 +66,6 @@ void DXMUI::DXMBuilder::Clear()
 	Clear(&myRoot);
 }
 
-
-
 void DXMUI::DXMBuilder::GenerateContent(DXMUI::DXMBuilder::NodeContent* aContent, std::vector<std::shared_ptr<DXMUI::ICanvasElement>>& aElems, std::vector<std::string>& aIDs)
 {
 	aElems.emplace_back(aContent->myElement);

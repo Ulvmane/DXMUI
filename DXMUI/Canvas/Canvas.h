@@ -19,6 +19,7 @@ namespace DXMUI
 		void ApplyStyle(const DXStyleSheet& aStyleSheet);
 	private:
 		void ApplyStyleToContainers(const std::string& aID, const DXUIStyle& aStyle);
+		void ApplyStyleToElements(const std::string& aID, const DXUIStyle& aStyle);
 	private:
 		friend class DXMBuilder;
 

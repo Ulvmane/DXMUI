@@ -14,6 +14,9 @@ enum class eStyleType : unsigned char
 	Color,
 	Font,
 	Count,
+	Margin,
+	Padding,
+	Border
 };
 
 namespace DXMUI
@@ -25,6 +28,9 @@ namespace DXMUI
 		Vector2 mySize{1.f, 1.f};
 		Vector2 myAlignment{0.f, 0.f};
 		Vector2 myPivot{0.f, 0.f};
+		Box myMargin;
+		Box myPadding;
+		Box myBorder;
 	};
 }
 

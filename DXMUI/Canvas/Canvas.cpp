@@ -17,7 +17,6 @@ void DXMUI::Canvas::Update()
 	}
 	myLMBDown = true;
 
-
 	POINT cursorPos;
 	if (!GetCursorPos(&cursorPos))
 		return;
@@ -114,11 +113,17 @@ void DXMUI::Canvas::SetCallback(const std::string& aID, std::function<void()> aF
 
 void DXMUI::Canvas::ApplyStyle(const DXStyleSheet& aStyleSheet)
 {
+	if(aStyleSheet.myStyleMap.find("img") != aStyleSheet.myStyleMap.end())
+		ApplyStyleToElements("img", aStyleSheet.myStyleMap.at("img"));
+	if(aStyleSheet.myStyleMap.find("t") != aStyleSheet.myStyleMap.end())
+		ApplyStyleToElements("t", aStyleSheet.myStyleMap.at("t"));
+	if(aStyleSheet.myStyleMap.find("button") != aStyleSheet.myStyleMap.end())
+		ApplyStyleToElements("button", aStyleSheet.myStyleMap.at("button"));
+
 	for (auto& idStylePair : aStyleSheet.myStyleMap)
 	{
 		ApplyStyleToContainers(idStylePair.first, idStylePair.second);
 	}
-
 	Init();
 }
 
@@ -132,6 +137,51 @@ void DXMUI::Canvas::ApplyStyleToContainers(const std::string& aID, const DXUISty
 			{
 				container.myElements[i]->SetStyle(aStyle);
 			}
+		}
+	}
+}
+
+
+#include "Elements\ImageElement.h"
+#include "Elements\TextElement.h" 
+#include "Elements\ButtonElement.h"
+
+void DXMUI::Canvas::ApplyStyleToElements(const std::string& aID, const DXUIStyle& aStyle)
+{
+	enum class elementType
+	{
+		Text, Button, Img
+	} eType = elementType::Text;
+
+	if (aID == "img")
+		eType = elementType::Img;
+	if (aID == "button")
+		eType = elementType::Button;
+	if (aID == "t")
+		eType = elementType::Text;
+
+	for (auto& container : myContainers)
+	{
+		if (container.myElements.size() < 1)
+			continue;
+
+		auto& e = container.myElements[0];
+		switch (eType)
+		{
+			case elementType::Text:
+				if (dynamic_cast<TextElement*>(e.get()) != nullptr)
+					e->SetStyle(aStyle);
+				break;
+			case elementType::Button:
+				if (dynamic_cast<ButtonElement*>(e.get()) != nullptr)
+					e->SetStyle(aStyle);
+				break;
+			case elementType::Img:
+				if (dynamic_cast<ImageElement*>(e.get()) != nullptr)
+					e->SetStyle(aStyle);
+				break;
+			default:
+				break;
 		}
 	}
 }

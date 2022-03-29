@@ -72,6 +72,33 @@ bool DXMUI::DXStyleSheet::SetFont(const std::string& aID, const std::string& aPa
 	return true;
 }
 
+bool DXMUI::DXStyleSheet::SetPadding(const std::string& aID, const Box& aBox)
+{
+	auto style = myStyleMap.find(aID);
+	if (style == myStyleMap.end())
+		return false;
+	style->second.myPadding = aBox;
+	return true;
+}
+
+bool DXMUI::DXStyleSheet::SetMargin(const std::string& aID, const Box& aBox)
+{
+	auto style = myStyleMap.find(aID);
+	if (style == myStyleMap.end())
+		return false;
+	style->second.myMargin = aBox;
+	return true;
+}
+
+bool DXMUI::DXStyleSheet::SetBorder(const std::string& aID, const Box& aBox)
+{
+	auto style = myStyleMap.find(aID);
+	if (style == myStyleMap.end())
+		return false;
+	style->second.myBorder = aBox;
+	return true;
+}
+
 void DXMUI::DXStyleSheet::SetIdentifier(const std::string& aID)
 {
 	if (myStyleMap.find(aID) != myStyleMap.end())

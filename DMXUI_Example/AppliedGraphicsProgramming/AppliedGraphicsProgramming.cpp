@@ -24,8 +24,11 @@ int main()
 
     MSG windowMessage = { 0 };
 
-    DXMUI::Canvas myCanvas;
-    DXMUI::DXMBuilder myBuilder;
+    DXMUI::Canvas* activeCanvas;
+    DXMUI::Canvas myMain;
+    DXMUI::Canvas myOptions;
+    DXMUI::Canvas myCredits;
+
     DXMUI::DXMParser myMarkupParser;
     DXMUI::DXSParser myStyleParser;
     DXMUI::DXM_D3D11_Interface myInterface;
@@ -35,13 +38,29 @@ int main()
         return -1;
    
 
-    myBuilder = myMarkupParser.Parse(L"Test_Markup.DXMarkup");
-    myCanvas = myBuilder.Build();
-    myCanvas.Init();
-    myCanvas.ApplyStyle(myStyleParser.Parse(L"Test_Style.DXStyle"));
-    myCanvas.SetCallback("callbackID_1", [&]() { printf("callbackID_1 was pressed \n"); });
-    myCanvas.SetCallback("callbackID_2", [&]() { printf("callbackID_2 was pressed \n"); });
+    myMain = myMarkupParser.Parse(L"Test_Markup.DXMarkup").Build();
+    myMain.Init();
+    myMain.ApplyStyle(myStyleParser.Parse(L"Test_Style.DXStyle"));
 
+    myCredits = myMarkupParser.Parse(L"Credits.DXMarkup").Build();
+    myCredits.Init();
+    myCredits.ApplyStyle(myStyleParser.Parse(L"Test_Style.DXStyle"));
+
+    myOptions = myMarkupParser.Parse(L"Options.DXMarkup").Build();
+    myOptions.Init();
+    myOptions.ApplyStyle(myStyleParser.Parse(L"Test_Style.DXStyle"));
+
+
+    auto quit = [&]() { shouldRun = false; };
+    auto returnToMain = [&]() { activeCanvas = &myMain; };
+    myMain.SetCallback("quit", quit);
+    myMain.SetCallback("options", [&]() { activeCanvas = &myOptions; });
+    myMain.SetCallback("credits", [&]() { activeCanvas = &myCredits; });
+    myCredits.SetCallback("back", returnToMain);
+    myOptions.SetCallback("back", returnToMain);
+
+
+    activeCanvas = &myMain;
     while (shouldRun)
     {
         while (PeekMessage(&windowMessage, 0, 0, 0, PM_REMOVE))
@@ -55,9 +74,9 @@ int main()
             }
         }
 
-        myCanvas.Update();
+        activeCanvas->Update();
         graphicsEngine.BeginFrame();
-        myInterface.RenderCanvas(myCanvas);
+        myInterface.RenderCanvas(*activeCanvas);
         graphicsEngine.EndFrame();
     }
     

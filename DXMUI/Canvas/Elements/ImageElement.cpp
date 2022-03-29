@@ -83,4 +83,9 @@ void DXMUI::ImageElement::SetStyle(const DXUIStyle& aStyle)
 	mySurface.myElementBufferData.mySize.y *= aStyle.mySize.y;
 	myWidth *= aStyle.mySize.x;
 	myHeight *= aStyle.mySize.y;
+
+
+	myBorder = aStyle.myBorder;
+	myPadding = aStyle.myPadding;
+	myMargin = aStyle.myMargin;
 }

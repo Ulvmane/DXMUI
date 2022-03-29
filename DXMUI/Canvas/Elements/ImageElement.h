@@ -16,7 +16,7 @@ namespace DXMUI
 		virtual void Render() override; 
 		virtual void SetPosition(const float aX, const float aY) override;
 		virtual DXMUI::Vector2 GetPosition() override;
-		void SetStyle(const class DXUIStyle& aStyle) override;
+		void SetStyle(const struct DXUIStyle& aStyle) override;
 	private:
 		std::string myPath;
 		ID3D11ShaderResourceView* myTexture;

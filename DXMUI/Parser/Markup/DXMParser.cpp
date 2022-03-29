@@ -103,7 +103,7 @@ void DXMUI::DXMParser::ParseTag(DXMBuilder& aBuilder)
 		{
 			myContentStack.push(std::string());
 		}
-		int idOffset = myTagBuffer.find_first_of(',');
+		size_t idOffset = myTagBuffer.find_first_of(',');
 		if (idOffset != std::string::npos)
 		{
 			myIDStack.push(std::string(myTagBuffer.begin() + idOffset + 1 , myTagBuffer.end()));

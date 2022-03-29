@@ -15,16 +15,14 @@ DXMUI::ButtonElement::ButtonElement(const char* aText)
 
 	auto spriteFont = DXMTextRenderer::GetDefaultSpriteFont();
 
-	auto clientRect = RECT();
-	GetClientRect(DXM_D3D11_Interface::GetHWND(), &clientRect);
-	auto clientWidth  = static_cast<float>(clientRect.right - clientRect.left);
-	auto clientHeight = static_cast<float>(clientRect.bottom - clientRect.top);
-
 	auto dimension = (spriteFont->MeasureString(myRenderText.myText.c_str()));
 
-	myWidth = (DirectX::XMVectorGetX(dimension)) / static_cast<float>(clientRect.right - clientRect.left);
-	myHeight = (DirectX::XMVectorGetY(dimension)) / static_cast<float>(clientRect.bottom - clientRect.top);
+	myWidth = (DirectX::XMVectorGetX(dimension))  / ourReferenceWidth;
+	myHeight = (DirectX::XMVectorGetY(dimension)) / ourReferenceHeight;
 	myRenderText.myOrigin = { 0.f, 0.f};
+	
+    myFontOffset = GetFontOffset(spriteFont, myRenderText.myText);
+
 
 	mySurface.myElementBufferData.myHasTexture = false;
 	mySurface.myElementBufferData.myColor = Color{ 0,0,0,0.5f };
@@ -42,16 +40,13 @@ void DXMUI::ButtonElement::Render()
 
 void DXMUI::ButtonElement::SetPosition(const float aX, const float aY)
 {
-
-	auto clientRect = RECT();
-	GetClientRect(DXM_D3D11_Interface::GetHWND(), &clientRect);
-	auto windowWidth = static_cast<float>(clientRect.right - clientRect.left);
-	auto windowHeight = static_cast<float>(clientRect.bottom - clientRect.top);
-
 	auto adjustedPosition = AdjustByAlignmentAndPivot({ aX, aY }, myAlignment, myPivot, {myWidth, myHeight});
-
-	mySurface.myElementBufferData.myPosition = adjustedPosition;
-	myRenderText.myPosition = Vector2{ adjustedPosition.x * windowWidth, adjustedPosition.y * windowHeight };
+	auto pivotAlignAdjustedX = adjustedPosition.x - myPivot.x * myWidth;
+	auto pivotAlignAdjustedY = adjustedPosition.y - myPivot.y * myHeight;
+	mySurface.myElementBufferData.myPosition = {pivotAlignAdjustedX - myPadding.left, pivotAlignAdjustedY + myMargin.top};
+	myRenderText.myPosition = Vector2{ adjustedPosition.x * ourReferenceWidth, (myPadding.top + adjustedPosition.y) * ourReferenceHeight  };
+	myRenderText.myPosition.x -= 0.5f * myFontOffset.x * ourReferenceWidth;
+	myRenderText.myOrigin.x = ourReferenceWidth * myWidth * myPivot.x;
 }
 
 DXMUI::Vector2 DXMUI::ButtonElement::GetPosition()
@@ -68,4 +63,12 @@ void DXMUI::ButtonElement::SetStyle(const DXUIStyle& aStyle)
 	mySurface.myElementBufferData.mySize = { myWidth, myHeight };
 	myAlignment = aStyle.myAlignment;
 	myPivot = aStyle.myPivot;
+
+
+	myBorder  = aStyle.myBorder;
+	myPadding = aStyle.myPadding;
+	myMargin  = aStyle.myMargin;
+	
+	mySurface.myElementBufferData.mySize.x += myPadding.left + myPadding.right;
+	mySurface.myElementBufferData.mySize.y += myPadding.top + myPadding.bottom;
 }

@@ -5,7 +5,7 @@
 
 DXMUI::DivElement::DivElement()
 {
-	mySurface.myElementBufferData.myColor = Color{ 1,1,1,1 };
+	mySurface.myElementBufferData.myColor = Color{ 0,0,0,0 };
 	mySurface.myElementBufferData.myPivot = Vector2{ 0.f,0.f };
 	mySurface.myElementBufferData.myPosition = Vector2{ 0.5f, 0.5f };
 	mySurface.myElementBufferData.mySize = Vector2{ myHeight,1 };
@@ -39,4 +39,9 @@ void DXMUI::DivElement::SetHeight(const float aHeight)
 void DXMUI::DivElement::SetStyle(const DXUIStyle& aStyle)
 {
 	mySurface.myElementBufferData.myColor = aStyle.myColor;
+
+
+	myBorder = aStyle.myBorder;
+	myPadding = aStyle.myPadding;
+	myMargin = aStyle.myMargin;
 }
