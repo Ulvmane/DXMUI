@@ -1,8 +1,11 @@
-#include "Canvas.h"
-#include "Elements\DivElement.h"
-#include "IInteractableElement.h"
 #include <Windows.h>
+#include "Canvas.h"
+#include "IInteractableElement.h"
 #include "D3D11_Interface\DXM_D3D11_Interface.h"
+#include "Elements\DivElement.h"
+#include "Elements\ImageElement.h"
+#include "Elements\TextElement.h" 
+#include "Elements\ButtonElement.h"
 
 void DXMUI::Canvas::Update()
 {
@@ -140,11 +143,6 @@ void DXMUI::Canvas::ApplyStyleToContainers(const std::string& aID, const DXUISty
 		}
 	}
 }
-
-
-#include "Elements\ImageElement.h"
-#include "Elements\TextElement.h" 
-#include "Elements\ButtonElement.h"
 
 void DXMUI::Canvas::ApplyStyleToElements(const std::string& aID, const DXUIStyle& aStyle)
 {
